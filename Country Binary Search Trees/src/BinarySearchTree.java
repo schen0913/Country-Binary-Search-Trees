@@ -1,15 +1,28 @@
-//class comment
+/**
+ * Create, search from, insert into, delete from, and display the country binary tree using pre-order, in-order, and post-order traversals.
+ * 
+ * @author Shirley Chen
+ * @version 04/10/2025
+ */
 public class BinarySearchTree 
 {
+	//Class variable declaration
 	Node root;
 	
-	//constructor comment
+	/**
+	 * Constructor to create the country binary search tree
+	 */
 	public BinarySearchTree()
 	{
 		root = null;
 	}//end BinarySearchTree
 	
-	//method comment
+	/**
+	 * Create and insert a country node into the binary search tree
+	 * 
+	 * @param name The name of country to be inserted
+	 * @param happiness The happiness of country to be inserted
+	 */
 	public void insert(String name, double happiness)
 	{
 		//Create new country node and set variables
@@ -17,9 +30,10 @@ public class BinarySearchTree
 		newCountry.countryName = name;
 		newCountry.happiness = happiness;
 		
-		//Check if tree is empty
+		//Insert new country node into tree
 		if(root == null)
 		{
+			//Set root to new country node if tree is empty
 			root = newCountry;
 		}
 		else 
@@ -32,7 +46,7 @@ public class BinarySearchTree
 			{
 				parent = current;
 				
-				//Traverse left or right on tree based on if new country's name is lexicographically smaller than current country's
+				//Traverse left or right on tree based on if new country's name is lexicographically smaller or larger than current country's
 				if(newCountry.countryName.compareTo(current.countryName) < 0)
 				{
 					current = current.leftChild;
@@ -52,13 +66,18 @@ public class BinarySearchTree
 						parent.rightChild = newCountry;
 						return;
 					}//end if
-					
 				}//end inner if-else
 			}//end while
 		}//end outer if-else		
 	}//end insert
 	
-	//method comment
+	/**
+	 * Find a country node within tree and print its path
+	 * 
+	 * @param name The name of country to find
+	 * 
+	 * @return The country's happiness or -1 if the country was not found
+	 */
 	public double find(String name)
 	{
 		//Local variable declarations
@@ -90,7 +109,6 @@ public class BinarySearchTree
 			else if(name.compareTo(current.countryName) < 0)
 			{
 				current = current.leftChild;
-				
 			}
 			else
 			{
@@ -103,7 +121,11 @@ public class BinarySearchTree
 		
 	}//end find
 	
-	//method comment
+	/**
+	 * Delete a country node from tree
+	 * 
+	 * @param name The name of country to delete
+	 */
 	public void delete(String name)
 	{
 		//Local variable declarations
@@ -111,6 +133,7 @@ public class BinarySearchTree
 		Node parent = null;
 		boolean found = false;
 		
+		//Traverse tree to find and delete the desired country
 		while(current != null)
 		{
 			//Check if name matches current country name
@@ -224,6 +247,7 @@ public class BinarySearchTree
 			
 		}//end while
 		
+		//Display message if the country was not found
 		if(!found)
 		{
 			System.out.println("Country not found in binary tree. No country deleted.");
@@ -231,7 +255,9 @@ public class BinarySearchTree
 		
 	}//end delete
 	
-	//method comment
+	/**
+	 * Print all country nodes using in-order traversal
+	 */
 	public void printInorder() 
 	{
 		System.out.println("\nInorder traversal:");
@@ -242,7 +268,11 @@ public class BinarySearchTree
 		
 	}//end printInorder
 	
-	//method comment
+	/**
+	 * Recursive helper method to traverse and print all country nodes using in-order traversal
+	 * 
+	 * @param localRoot The root of the tree/subtree
+	 */
 	private void traverseInorder(Node localRoot)
 	{
 		if(localRoot == null)
@@ -256,7 +286,9 @@ public class BinarySearchTree
 		
 	}//end traverseInorder
 	
-	//method comment
+	/**
+	 * Print all country nodes using pre-order traversal
+	 */
 	public void printPreorder()
 	{
 		System.out.println("\nPreorder traversal:");
@@ -267,7 +299,11 @@ public class BinarySearchTree
 		
 	}//end printPreorder
 	
-	//method comment
+	/**
+	 * Recursive helper method to traverse and print all country nodes using pre-order traversal
+	 * 
+	 * @param localRoot The root of the tree/subtree
+	 */
 	private void traversePreorder(Node localRoot)
 	{
 		if(localRoot == null)
@@ -281,7 +317,9 @@ public class BinarySearchTree
 		
 	}//end traversePreorder
 	
-	//method comment
+	/**
+	 * Print all country nodes using post-order traversal
+	 */
 	public void printPostorder()
 	{
 		System.out.println("\nPostorder traversal:");
@@ -292,7 +330,11 @@ public class BinarySearchTree
 		
 	}//end printPostorder
 	
-	//method comment
+	/**
+	 * Recursive helper method to traverse and print all country nodes using post-order traversal
+	 * 
+	 * @param localRoot The root of the tree/subtree
+	 */
 	private void traversePostorder(Node localRoot)
 	{
 		if(localRoot == null)
@@ -306,24 +348,117 @@ public class BinarySearchTree
 		
 	}//end traversePreorder
 	
+	/**
+	 * Find and print in ascending order the bottom c countries regarding happiness
+	 * 
+	 * @param c The number of countries to find and print
+	 */
 	public void printBottomCountries(int c)
 	{
+		//Local variable declarations
+		double lastMin = -1;
+		Node currentMin;
+		
+		//Display header
 		System.out.println("Bottom " + c + " countries regarding happiness: \n");
 		System.out.println("Name                               Happiness");
 		System.out.println("-------------------------------------------------");
 		
-
+		//Find and print next minimum happiness country data
+		for(int i = 0; i < c; i++)
+		{
+			currentMin = root;
+			currentMin = findNextMin(root, currentMin, lastMin);
+			currentMin.printNode();
+			lastMin = currentMin.happiness;
+		}//end for
+		
 	}//end printBottomCountries
 	
+	/**
+	 * Helper function to traverse tree and find country node with next minimum happiness value
+	 * 
+	 * @param localRoot The root of the tree/subtree
+	 * @param currentMin The country node with current minimum happiness value
+	 * @param lastMin The last minimum happiness value
+	 * @return currentMin The country node with current minimum happiness value
+	 */
+	private Node findNextMin(Node localRoot, Node currentMin, double lastMin)
+	{
+		//Check if node is null
+		if(localRoot == null)
+		{
+			return currentMin;
+		}
+		
+		//Find county node with next minimum value
+		currentMin = findNextMin(localRoot.leftChild, currentMin, lastMin);
+		currentMin = findNextMin(localRoot.rightChild, currentMin, lastMin);
+		
+		if(localRoot.happiness > lastMin && localRoot.happiness < currentMin.happiness)
+		{
+			currentMin = localRoot;
+		}
+		
+		return currentMin;
+	
+	}//end findNextMin
+	
+	
+	/**
+	 * Find and print in descending order the top c countries regarding happiness
+	 * 
+	 * @param c The number of countries to find and print
+	 */
 	public void printTopCountries(int c) 
 	{
+		//Local variable declarations
+		double lastMax = 100;
+		Node currentMax;
+		
+		//Display header
 		System.out.println("Top " + c + " countries regarding happiness: \n");
 		System.out.println("Name                               Happiness");
 		System.out.println("-------------------------------------------------");
 		
-
-		
+		//Find and print next max happiness country data
+		for(int i = 0; i < c; i++)
+		{
+			currentMax = root;
+			currentMax = findNextMax(root, currentMax, lastMax);
+			currentMax.printNode();
+			lastMax = currentMax.happiness;
+		}//end for
 		
 	}//end printTopCountries
+	
+	/**
+	 * Helper function to traverse tree and find country node with next max happiness value
+	 * 
+	 * @param localRoot The root of the tree/subtree
+	 * @param currentMax The country node with current max happiness value
+	 * @param lastMax The last max happiness value
+	 * @return currentMin The country node with current max happiness value
+	 */
+	private Node findNextMax(Node localRoot, Node currentMax, double lastMax)
+	{
+		//Check if node is null
+		if(localRoot == null)
+		{
+			return currentMax;
+		}
+		
+		//Find county node with next max value
+		currentMax = findNextMax(localRoot.leftChild, currentMax, lastMax);
+		currentMax = findNextMax(localRoot.rightChild, currentMax, lastMax);
+		
+		if(localRoot.happiness < lastMax && localRoot.happiness > currentMax.happiness)
+		{
+			currentMax = localRoot;
+		}
+		
+		return currentMax;
+		
+	}//end findNextMax
 	
 }//end BinarySearchTree class

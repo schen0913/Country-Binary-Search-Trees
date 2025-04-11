@@ -1,4 +1,9 @@
-//class comment
+/**
+ * Stores and prints a country's data
+ * 
+ * @author Shirley Chen
+ * @version 04/10/2025
+ */
 public class Node 
 {
 	//Class variable declarations

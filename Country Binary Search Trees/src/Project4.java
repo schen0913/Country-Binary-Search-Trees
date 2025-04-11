@@ -1,9 +1,16 @@
-//class comment
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * COP 3530: Project 4 - Binary Search Trees
+ * <p>
+ * Program reads in a country file and saves the country (name and happiness) as nodes into a binary search tree.
+ * The user can search from, insert into, delete from, and display the country binary tree using pre-order, in-order, and post-order traversals.
+ * 
+ * @author Shirley Chen
+ * @version 04/10/2025
+ */
 public class Project4
 {
 	/**
@@ -137,7 +144,7 @@ public class Project4
 						case 8:
 							System.out.println("Enter the number of countries ");
 							int b = scnr.nextInt();
-							countryBST.printBottomCountries(b);
+							countryBST.printTopCountries(b);
 							break;
 						
 						default:
@@ -148,7 +155,7 @@ public class Project4
 				else
 				{
 					System.out.println("Invalid choice. Enter 1-9.");
-				}//end first inner if-else
+				}//end inner if-else
 			}
 			else
 			{
@@ -158,11 +165,11 @@ public class Project4
 			
 			System.out.println();
 			
-		}while(userChoice != 9); //end outer do-while
+		}while(userChoice != 9); //end do-while
 		
 		//Close scanners
 		fscnr.close();
 		scnr.close();
 		
 	}//end main
-}
+}//end Project4 class
